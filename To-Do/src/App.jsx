@@ -15,11 +15,11 @@ export default class App extends Component {
         ],
         value: '',
     };
-    getStyle = () => {
+    getStyle = (completed) => {
         return {
             padding: '10px',
             borderBottom: '1px #ccc dotted',
-            textDecoration: 'none',
+            textDecoration: completed ? 'line-through' : 'none',
         };
     };
 
@@ -41,7 +41,20 @@ export default class App extends Component {
             completed: false,
         };
 
-        this.setState({ todoData: [...this.state.todoData, newTodo] });
+        this.setState({
+            todoData: [...this.state.todoData, newTodo],
+            value: '',
+        });
+    };
+
+    handleCheck = (id) => {
+        let newTodoData = this.state.todoData.map((data) => {
+            if (data.id === id) {
+                data.completed = !data.completed;
+            }
+            return data;
+        });
+        this.setState({ todoData: newTodoData });
     };
     render() {
         return (
@@ -69,8 +82,11 @@ export default class App extends Component {
 
                     {this.state.todoData.map((e, i) => {
                         return (
-                            <div style={this.getStyle()} key={e.id}>
-                                <input type="checkbox" />
+                            <div style={this.getStyle(e.completed)} key={e.id}>
+                                <input
+                                    type="checkbox"
+                                    onChange={() => this.handleCheck(e.id)}
+                                />
                                 {e.title}
                                 <button
                                     className={style.deleteBtn}
