@@ -29,18 +29,31 @@ const List = ({ list, setList }) => {
         <div>
             {list.map((e, i) => {
                 return (
-                    <div style={getStyle(e.completed)} key={e.id}>
-                        <input
-                            type="checkbox"
-                            onChange={() => handleCheck(e.id)}
-                        />
-                        {e.title}
-                        <button
-                            className={style.deleteBtn}
-                            onClick={() => handleClick(e.id)}
-                        >
-                            x
-                        </button>
+                    <div
+                        key={e.id}
+                        className="flex items-center justify-between w-full px-4 py-1 my-2 text-gray-600 bg-gray-100 border rounded"
+                    >
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                onChange={() => handleCheck(e.id)}
+                            />
+                            <span
+                                className={
+                                    e.completed ? 'line-through' : undefined
+                                }
+                            >
+                                {e.title}
+                            </span>
+                        </div>
+                        <div>
+                            <button
+                                className="px-4 py-2 float-right"
+                                onClick={() => handleClick(e.id)}
+                            >
+                                x
+                            </button>
+                        </div>
                     </div>
                 );
             })}
