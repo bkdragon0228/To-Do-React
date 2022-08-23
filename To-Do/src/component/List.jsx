@@ -26,9 +26,23 @@ const List = ({ list, setList }) => {
         setList(newList);
     };
 
+    const handleEnd = (result) => {
+        console.log(result); // drag 이벤트에 대한 정보가 포함된다.
+
+        if (!result.destination) return;
+
+        const newTodos = list;
+
+        // drag된 아이템을 제거하고
+        const [reorderedItem] = newTodos.splice(result.source.index, 1);
+        // 바뀐 자리에 추가
+        newTodos.splice(result.destination.index, 0, reorderedItem);
+        setList(newTodos);
+    };
+
     return (
         <div>
-            <DragDropContext>
+            <DragDropContext onDragEnd={handleEnd}>
                 <Droppable droppableId="droppable">
                     {(provided) => (
                         <div
